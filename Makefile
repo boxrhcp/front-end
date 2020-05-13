@@ -64,3 +64,8 @@ kill-compose:
 
 kill-server:
 	@if [ $$(docker ps -a -q -f name=$(IMAGE) | wc -l) -ge 1 ]; then docker rm -f $(IMAGE); fi
+
+release:
+	sh scripts/build.sh
+	docker tag weaveworksdemos/front-end:test eu.gcr.io/optimum-mode-272714/front-end
+	docker push eu.gcr.io/optimum-mode-272714/front-end
