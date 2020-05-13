@@ -45,6 +45,22 @@
     request.get(url).pipe(res);
   });
 
+  app.delete("/orders/*", function (req, res, next) {
+    console.log("Deleting Order " + req.url.toString());
+    var options = {
+        uri: endpoints.ordersUrl + "/" + req.url.toString(),
+        method: 'DELETE'
+    };
+    request(options, function(error, response, body) {
+        if (error) {
+            return next(error);
+        }
+        helpers.respondSuccessBody(res, JSON.stringify(body));
+    }.bind({
+        res: res
+    }));
+  });
+
   app.post("/orders", function(req, res, next) {
     console.log("Request received with body: " + JSON.stringify(req.body));
     var logged_in = req.cookies.logged_in;
